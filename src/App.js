@@ -26,7 +26,15 @@ function App() {
 
   return (
     <div className="App">
-      <header></header>
+      <div className="fixed z-10 top-0 navbar bg-base-100">
+        <div className="navbar-start"></div>
+        <div className="navbar-center">
+          <h1 className="btn btn-ghost normal-case text-2xl">Chat App</h1>
+        </div>
+        <div className="navbar-end">
+          <SignOut />
+        </div>
+      </div>
       <section>{user ? <ChatRoom /> : <SignIn />}</section>
     </div>
   );
@@ -38,13 +46,23 @@ function SignIn() {
     auth.signInWithPopup(provider);
   };
 
-  function SignOut() {
-    return (
-      auth.currentUser && <button onClick={auth.signOut()}>Sign Out</button>
-    );
-  }
+  return (
+    <div className="mt-20 ml-10">
+      <button className="btn" onClick={signInWithGoogle}>
+        Sign in with Google
+      </button>
+    </div>
+  );
+}
 
-  return <button onClick={signInWithGoogle}>Sign in with Google</button>;
+function SignOut() {
+  return (
+    auth.currentUser && (
+      <button onClick={() => auth.signOut()} className="btn btn-ghost">
+        Logout
+      </button>
+    )
+  );
 }
 
 function ChatRoom() {
@@ -77,23 +95,28 @@ function ChatRoom() {
   };
 
   return (
-    <>
-      <main>
+    <div className="flex flex-col items-end">
+      <main className="my-16">
         {messages &&
           messages.map((msg) => <ChatMessage key={msg.id} message={msg} />)}
         <div ref={dummy}></div>
       </main>
 
-      <form onSubmit={sendMessage}>
+      <form
+        onSubmit={sendMessage}
+        className="flex space-x-2 mx-2 fixed z-10 bottom-0"
+      >
         <input
           type="text"
+          placeholder="Type here"
+          className="input input-bordered input-primary w-full max-w-xs"
           value={formValue}
           onChange={(e) => setFormValue(e.target.value)}
         />
 
         <button type="submit">Send</button>
       </form>
-    </>
+    </div>
   );
 }
 
@@ -104,8 +127,8 @@ function ChatMessage(props) {
 
   return (
     <div className={`message ${messageClass}`}>
-      <img src={photoURL} />
-      <p>{text}</p>
+      <img src={photoURL} alt="porfile" className="w-10 rounded-full" />
+      <p className="chat-bubble">{text}</p>
     </div>
   );
 }
