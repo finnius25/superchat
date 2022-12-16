@@ -96,7 +96,7 @@ function ChatRoom() {
 
   return (
     <div className="flex flex-col items-end">
-      <main className="my-16">
+      <main className="my-16 w-full">
         {messages &&
           messages.map((msg) => <ChatMessage key={msg.id} message={msg} />)}
         <div ref={dummy}></div>
@@ -104,12 +104,12 @@ function ChatRoom() {
 
       <form
         onSubmit={sendMessage}
-        className="flex space-x-2 mx-2 fixed z-10 bottom-0"
+        className="flex space-x-2 mx-2 fixed z-10 bottom-5 justify-center w-full"
       >
         <input
           type="text"
           placeholder="Type here"
-          className="input input-bordered input-primary w-full max-w-xs"
+          className="input input-bordered input-primary w-full max-w-xs overflow-auto"
           value={formValue}
           onChange={(e) => setFormValue(e.target.value)}
         />
@@ -126,9 +126,9 @@ function ChatMessage(props) {
   const messageClass = uid === auth.currentUser.uid ? "sent" : "recieved";
 
   return (
-    <div className={`message ${messageClass}`}>
-      <img src={photoURL} alt="porfile" className="w-10 rounded-full" />
-      <p className="chat-bubble">{text}</p>
+    <div className={`message ${messageClass} p-4`}>
+      <img src={photoURL} alt="porfile" className="w-10 h-10 rounded-full" />
+      <p className="chat-bubble mx-2 max-w-xl overflow-auto">{text}</p>
     </div>
   );
 }
